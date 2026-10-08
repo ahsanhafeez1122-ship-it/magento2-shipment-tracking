@@ -1,0 +1,27 @@
+{
+    "name": "ahsanhafeez/module-shipment-tracking",
+    "description": "Magento 2 module: clickable carrier tracking links for UK carriers, signed tracking webhooks with live delivery status, and an audit command for broken tracking data.",
+    "type": "magento2-module",
+    "license": "MIT",
+    "keywords": ["magento2", "magento2-module", "shipping", "tracking", "dpd", "royal-mail", "evri", "webhook"],
+    "authors": [
+        {
+            "name": "Ahsan Hafeez",
+            "homepage": "https://github.com/ahsanhafeez1122-ship-it"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "magento/framework": "^103.0",
+        "magento/module-sales": "*",
+        "magento/module-shipping": "*",
+        "magento/module-store": "*",
+        "magento/module-config": "*"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "AhsanHafeez\\ShipmentTracking\\": ""
+        }
+    }
+}

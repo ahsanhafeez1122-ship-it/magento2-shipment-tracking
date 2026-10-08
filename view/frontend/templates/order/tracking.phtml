@@ -1,0 +1,51 @@
+<?php
+/**
+ * Customer account › My Orders › View: one row per parcel with live status and a tracking link.
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \AhsanHafeez\ShipmentTracking\ViewModel\Tracking $viewModel
+ */
+$viewModel = $block->getData('tracking_view_model');
+$order = $block->getLayout()->getBlock('sales.order.info')?->getOrder();
+if (!$order || !$viewModel) {
+    return;
+}
+$links = $viewModel->getLinksForOrder($order);
+if (!$links) {
+    return;
+}
+?>
+<div class="block block-order-tracking">
+    <div class="block-title"><strong><?= $escaper->escapeHtml(__('Track your parcels')) ?></strong></div>
+    <div class="block-content">
+        <div class="table-wrapper">
+            <table class="data table">
+                <thead>
+                <tr>
+                    <th scope="col"><?= $escaper->escapeHtml(__('Carrier')) ?></th>
+                    <th scope="col"><?= $escaper->escapeHtml(__('Tracking number')) ?></th>
+                    <th scope="col"><?= $escaper->escapeHtml(__('Status')) ?></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($links as $link): ?>
+                    <tr>
+                        <td><?= $escaper->escapeHtml($link->carrierLabel) ?></td>
+                        <td><?= $escaper->escapeHtml($link->number) ?></td>
+                        <td><?= $escaper->escapeHtml($viewModel->getStatusLabel($link->deliveryStatus) ?: __('Shipped')) ?></td>
+                        <td>
+                            <?php if ($link->url): ?>
+                                <a class="action" href="<?= $escaper->escapeUrl($link->url) ?>" target="_blank" rel="noopener">
+                                    <?= $escaper->escapeHtml(__('Track parcel')) ?>
+                                </a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

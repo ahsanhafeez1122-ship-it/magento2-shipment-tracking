@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shipment_tracking>
+            <general>
+                <enabled>1</enabled>
+                <carriers>dpd | DPD | https://track.dpd.co.uk/parcels/{number} | ^\d{14}$ | dpd uk, dpd local
+royalmail | Royal Mail | https://www.royalmail.com/track-your-item#/tracking-results/{number} | ^[A-Z]{2}\d{9}GB$ | royal mail, rm tracked
+evri | Evri | https://www.evri.com/track/parcel/{number} | ^[A-Z0-9]{16}$ | hermes, myhermes
+parcelforce | Parcelforce | https://www.parcelforce.com/track-trace?trackNumber={number} | | parcelforce worldwide
+dhl | DHL | https://www.dhl.com/gb-en/home/tracking/tracking-express.html?tracking-id={number} | | dhl express, dhl parcel
+ups | UPS | https://www.ups.com/track?tracknum={number} | ^1Z[A-Z0-9]{16}$ |
+fedex | FedEx | https://www.fedex.com/fedextrack/?trknbr={number} | |
+yodel | Yodel | https://www.yodel.co.uk/tracking/{number} | |</carriers>
+            </general>
+            <webhook>
+                <enabled>0</enabled>
+                <secret/>
+                <tolerance_seconds>300</tolerance_seconds>
+            </webhook>
+        </shipment_tracking>
+    </default>
+</config>

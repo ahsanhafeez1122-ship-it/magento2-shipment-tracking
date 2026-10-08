@@ -1,0 +1,29 @@
+{
+    "sales_shipment_track": {
+        "column": {
+            "delivery_status": true,
+            "delivery_status_at": true
+        }
+    },
+    "ahsan_tracking_event": {
+        "column": {
+            "entity_id": true,
+            "track_id": true,
+            "external_id": true,
+            "status": true,
+            "raw_status": true,
+            "description": true,
+            "location": true,
+            "occurred_at": true,
+            "created_at": true
+        },
+        "index": {
+            "AHSAN_TRACKING_EVENT_TRACK_ID_OCCURRED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AHSAN_TRACKING_EVENT_EXTERNAL_ID": true,
+            "AHSAN_TRACKING_EVENT_TRACK_ID_SALES_SHIPMENT_TRACK_ENTITY_ID": true
+        }
+    }
+}

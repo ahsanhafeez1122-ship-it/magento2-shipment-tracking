@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_shipment_track">
+        <column xsi:type="varchar" name="delivery_status" length="32" nullable="true" comment="Latest Delivery Status (AhsanHafeez_ShipmentTracking)"/>
+        <column xsi:type="datetime" name="delivery_status_at" nullable="true" comment="Time Of Latest Delivery Status"/>
+    </table>
+    <table name="ahsan_tracking_event" resource="sales" engine="innodb" comment="Carrier Tracking Events">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Event ID"/>
+        <column xsi:type="int" name="track_id" unsigned="true" nullable="false" comment="Shipment Track ID"/>
+        <column xsi:type="varchar" name="external_id" length="128" nullable="false" comment="Provider Event ID (idempotency key)"/>
+        <column xsi:type="varchar" name="status" length="32" nullable="false" comment="Normalized Status"/>
+        <column xsi:type="varchar" name="raw_status" length="64" nullable="true" comment="Carrier Status As Sent"/>
+        <column xsi:type="varchar" name="description" length="255" nullable="true" comment="Description"/>
+        <column xsi:type="varchar" name="location" length="255" nullable="true" comment="Location"/>
+        <column xsi:type="datetime" name="occurred_at" nullable="false" comment="Event Time (UTC)"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Received At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="AHSAN_TRACKING_EVENT_EXTERNAL_ID">
+            <column name="external_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AHSAN_TRACKING_EVENT_TRACK_ID_SALES_SHIPMENT_TRACK_ENTITY_ID"
+                    table="ahsan_tracking_event" column="track_id"
+                    referenceTable="sales_shipment_track" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="AHSAN_TRACKING_EVENT_TRACK_ID_OCCURRED_AT" indexType="btree">
+            <column name="track_id"/>
+            <column name="occurred_at"/>
+        </index>
+    </table>
+</schema>

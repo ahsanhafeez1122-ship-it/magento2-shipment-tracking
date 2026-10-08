@@ -1,0 +1,46 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \AhsanHafeez\ShipmentTracking\ViewModel\Tracking $viewModel
+ */
+$viewModel = $block->getData('tracking_view_model');
+if (!$viewModel) {
+    return;
+}
+// Older Magento versions pass the shipment object to this block, 2.4.4+ pass shipment_id.
+$shipment = $viewModel->resolveShipment($block->getShipment(), $block->getShipmentId());
+if (!$shipment) {
+    return;
+}
+$links = $viewModel->getLinksForShipment($shipment);
+if (!$links) {
+    return;
+}
+?>
+<br/>
+<table class="shipment-track">
+    <thead>
+    <tr>
+        <th><?= $escaper->escapeHtml(__('Shipped By')) ?></th>
+        <th><?= $escaper->escapeHtml(__('Tracking Number')) ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($links as $link): ?>
+        <tr>
+            <td><?= $escaper->escapeHtml($link->carrierLabel) ?></td>
+            <td><?= $escaper->escapeHtml($link->number) ?></td>
+            <td>
+                <?php if ($link->url): ?>
+                    <a href="<?= $escaper->escapeUrl($link->url) ?>" target="_blank"
+                       style="display:inline-block;padding:8px 14px;background:#1979c3;color:#ffffff;text-decoration:none;border-radius:3px">
+                        <?= $escaper->escapeHtml(__('Track parcel')) ?>
+                    </a>
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="shipment_tracking" translate="label" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Shipment Tracking</label>
+            <tab>sales</tab>
+            <resource>AhsanHafeez_ShipmentTracking::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Tracking Links</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Tracking Links</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="carriers" translate="label comment" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Carriers</label>
+                    <comment><![CDATA[One carrier per line: <code>code | Label | https://url/{number} | optional regex | optional aliases</code>.<br>
+The URL may also use <code>{postcode}</code>. Aliases match the free-text title used for "Custom" carrier tracks, e.g. "DPD Local".]]></comment>
+                </field>
+            </group>
+            <group id="webhook" translate="label" sortOrder="20" showInDefault="1">
+                <label>Delivery Status Webhook</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1">
+                    <label>Accept Webhooks</label>
+                    <comment>Endpoint: POST https://your-store/shipment-tracking/webhook/receive</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="secret" translate="label comment" type="obscure" sortOrder="20" showInDefault="1">
+                    <label>Signing Secret</label>
+                    <comment>Shared with the tracking provider. Requests without a valid HMAC-SHA256 signature are refused.</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="tolerance_seconds" translate="label comment" type="text" sortOrder="30" showInDefault="1">
+                    <label>Signature Age Limit (seconds)</label>
+                    <comment>Older signed requests are refused, which blocks replayed requests.</comment>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

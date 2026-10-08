@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+  Magento's shipment email renders tracks through this handle. Swapping the template adds a
+  clickable "Track parcel" link for every carrier, including tracks saved under "Custom".
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales.order.email.shipment.track">
+            <action method="setTemplate" ifconfig="shipment_tracking/general/enabled">
+                <argument name="template" xsi:type="string">AhsanHafeez_ShipmentTracking::email/shipment/track.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="tracking_view_model" xsi:type="object">AhsanHafeez\ShipmentTracking\ViewModel\Tracking</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>
